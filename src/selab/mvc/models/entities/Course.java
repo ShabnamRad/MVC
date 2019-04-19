@@ -1,8 +1,10 @@
 package selab.mvc.models.entities;
 
+import selab.mvc.models.DataSet;
 import selab.mvc.models.Model;
 import sun.misc.Regexp;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Course implements Model {
@@ -11,6 +13,11 @@ public class Course implements Model {
     private String startTime = null;
     private String endTime = null;
     private Weekday weekday;
+    private DataSet<Student> students;
+
+    public Course() {
+        students = new DataSet<>();
+    }
 
 
     @Override
@@ -65,9 +72,18 @@ public class Course implements Model {
         return 0;
     }
 
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
     public String getStudents() {
-        // TODO: Return a comma separated list of student names
-        return "-";
+        if (students.getAll().size() == 0)
+            return "-";
+        ArrayList<String> names = new ArrayList<>();
+        for (Student s : students.getAll()) {
+            names.add(s.getName());
+        }
+        return String.join(", ", names);
     }
 
     /**

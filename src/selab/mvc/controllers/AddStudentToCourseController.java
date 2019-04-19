@@ -5,6 +5,7 @@ import selab.mvc.models.DataContext;
 import selab.mvc.models.DataSet;
 import selab.mvc.models.entities.Course;
 import selab.mvc.models.entities.Course_Student;
+import selab.mvc.models.entities.Student;
 import selab.mvc.views.JsonView;
 import selab.mvc.views.View;
 
@@ -31,12 +32,16 @@ public class AddStudentToCourseController extends Controller {
         String courseNo = input.getString("courseNo");
         String points = input.getString("points");
 
+        Student student = dataContext.getStudents().get(studentNo);
+        Course course = dataContext.getCourses().get(courseNo);
         Course_Student course_student = new Course_Student();
-        course_student.setCourse(dataContext.getCourses().get(courseNo));
-        course_student.setStudent(dataContext.getStudents().get(studentNo));
+        course_student.setCourse(course);
+        course_student.setStudent(student);
         course_student.setPoints(Double.parseDouble(points));
 
         course_students.add(course_student);
+        student.addCourse(course);
+        course.addStudent(student);
 
         for (Course_Student cs: course_students.getAll()) {
             System.out.println(cs.getPrimaryKey() + " " +  cs.getPoints());
