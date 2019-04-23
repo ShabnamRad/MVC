@@ -45,10 +45,6 @@ public class AddStudentToCourseController extends Controller {
         course.addStudent(student);
         course.updateAverage(Float.parseFloat(points));
 
-        for (Course_Student cs: course_students.getAll()) {
-            System.out.println(cs.getPrimaryKey() + " " +  cs.getPoints());
-        }
-
         Map<String, String> result = new HashMap<>();
         result.put("success", "true");
         return new JsonView(new JSONObject(result));

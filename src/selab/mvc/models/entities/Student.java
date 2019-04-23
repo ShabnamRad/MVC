@@ -1,5 +1,6 @@
 package selab.mvc.models.entities;
 
+import selab.mvc.models.DataContext;
 import selab.mvc.models.DataSet;
 import selab.mvc.models.Model;
 
@@ -9,7 +10,7 @@ import java.util.regex.Pattern;
 public class Student implements Model {
     private String name;
     private String studentNo;
-    private float average;
+    private double average;
     private DataSet<Course> courses;
 
     public Student() {
@@ -40,12 +41,17 @@ public class Student implements Model {
         return this.studentNo;
     }
 
-    public float getAverage() {
+    public double getAverage() {
         return average;
     }
 
     public void addCourse(Course course) {
         courses.add(course);
+    }
+
+    public void removeCourse(Course_Student cs) {
+        courses.remove(cs.getCourse());
+        removeFromAverage(cs.getPoints());
     }
 
     public String getCourses() {
@@ -67,7 +73,22 @@ public class Student implements Model {
         return pattern.matcher(studentNo).find();
     }
 
-    public void updateAverage(float v) {
-        average = (average * (courses.getAll().size() - 1) + v) / courses.getAll().size();
+    public void updateAverage(double points) {
+        average = (average * (courses.getAll().size() - 1) + points) / courses.getAll().size();
+    }
+
+    private void removeFromAverage(double points) {
+        if (courses.getAll().size() == 0)
+            average = 0;
+        else
+            average = (average * (courses.getAll().size() + 1) - points) / courses.getAll().size();
+    }
+
+    public void dispose(DataContext dataContext) {
+        for (Course c: courses.getAll()) {
+            Course_Student cs = dataContext.getCourse_students().get(c.getPrimaryKey() + "_" + getPrimaryKey());
+            c.removeStudent(cs);
+            dataContext.getCourse_students().remove(cs);
+        }
     }
 }

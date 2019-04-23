@@ -22,4 +22,12 @@ public class DataSet<T extends Model> {
     public ArrayList<T> getAll() {
         return new ArrayList(set.values());
     }
+
+    public T remove(T entity) {
+        return set.remove(entity.getPrimaryKey());
+    }
+
+    public T remove(String key) {
+        return set.remove(key);
+    }
 }
