@@ -13,6 +13,7 @@ public class Course implements Model {
     private String startTime = null;
     private String endTime = null;
     private Weekday weekday;
+    private float average;
     private DataSet<Student> students;
 
     public Course() {
@@ -68,8 +69,7 @@ public class Course implements Model {
     }
 
     public float getAverage() {
-        // TODO: Calculate and return the average of the points
-        return 0;
+        return average;
     }
 
     public void addStudent(Student student) {
@@ -124,5 +124,9 @@ public class Course implements Model {
             return 0;
         else
             return -1;
+    }
+
+    public void updateAverage(float v) {
+        average = (average * (students.getAll().size() - 1) + v) / students.getAll().size();
     }
 }

@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 public class Student implements Model {
     private String name;
     private String studentNo;
+    private float average;
     private DataSet<Course> courses;
 
     public Student() {
@@ -40,8 +41,7 @@ public class Student implements Model {
     }
 
     public float getAverage() {
-        // TODO: Calculate and return the average of the points
-        return 0;
+        return average;
     }
 
     public void addCourse(Course course) {
@@ -65,5 +65,9 @@ public class Student implements Model {
     private boolean validateStudentNo(String studentNo) {
         Pattern pattern = Pattern.compile("^[8-9]\\d{7}$");
         return pattern.matcher(studentNo).find();
+    }
+
+    public void updateAverage(float v) {
+        average = (average * (courses.getAll().size() - 1) + v) / courses.getAll().size();
     }
 }

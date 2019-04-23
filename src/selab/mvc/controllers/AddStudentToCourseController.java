@@ -41,7 +41,9 @@ public class AddStudentToCourseController extends Controller {
 
         course_students.add(course_student);
         student.addCourse(course);
+        student.updateAverage(Float.parseFloat(points));
         course.addStudent(student);
+        course.updateAverage(Float.parseFloat(points));
 
         for (Course_Student cs: course_students.getAll()) {
             System.out.println(cs.getPrimaryKey() + " " +  cs.getPoints());
