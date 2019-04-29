@@ -136,10 +136,13 @@
       <find>ave</find>
       <find>System.</find>
       <find>TODO</find>
+      <find>94109143</find>
     </findStrings>
     <replaceStrings>
       <replace>course</replace>
       <replace>Course</replace>
+      <replace>shabnam.996</replace>
+      <replace>94105803</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
